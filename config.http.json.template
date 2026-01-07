@@ -1,0 +1,16 @@
+{
+    "listener": {
+        "address": "0.0.0.0",
+        "port": 7676
+    },
+    "limiter": {
+        "max_request_per_ip": 3,
+        "max_request_interval": 60,
+        "cleanup_old_request_interval": 120
+    },
+    "server": {
+        "idle_timeout": 60,
+        "read_timeout": 75,
+        "write_timeout": 75
+    }
+}

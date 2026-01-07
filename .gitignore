@@ -49,6 +49,10 @@ export*.h
 export*.hh
 export*.hpp
 
+/simple_check.*
+/config.http.json
+/config.grpc.json
+
 ##
 ## file: exclude
 ##
