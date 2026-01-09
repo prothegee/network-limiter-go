@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"time"
 
-	internal_gen "github.com/network-limiter-go/internal"
-	internal_config "github.com/network-limiter-go/internal/config"
-	internal_http_limiter "github.com/network-limiter-go/internal/http"
+	gen "github.com/network-limiter-go/pkg"
+	config "github.com/network-limiter-go/pkg/config"
+	http_limiter "github.com/network-limiter-go/pkg/http"
 )
 
 // --------------------------------------------------------- //
@@ -49,7 +49,7 @@ func handlerHome(w http.ResponseWriter, r *http.Request) {
 
 	// heavy io sim.
 	rn := rand.New(rand.NewSource(time.Now().UnixNano()))
-	rnNum := internal_gen.RandomNumberSign(rn, 0,  9)
+	rnNum := gen.RandomNumberSign(rn, 0,  9)
 	time.Sleep(time.Duration(rnNum) * time.Second)
 
 	resp := responseHome{
@@ -66,23 +66,23 @@ func handlerHome(w http.ResponseWriter, r *http.Request) {
 // --------------------------------------------------------- //
 
 func main() {
-	cfg, err := internal_config.ConfigServerHttpLoad("../../config.http.json")
+	cfg, err := config.ConfigServerHttpLoad("../../config.http.json")
 	if err != nil {
 		log.Fatalf("can't load config: %v\n", err)
 		return
 	}
 	listAddr := fmt.Sprintf("%s:%d", cfg.Listener.Address, cfg.Listener.Port)
 
-	limiter := internal_http_limiter.NewHttpRateLimiter(
+	limiter := http_limiter.NewHttpRateLimiter(
 		uint(cfg.Limiter.MaxRequestPerIp),
 		time.Duration(cfg.Limiter.MaxRequestInterval)*time.Second)
-	middleware := &internal_http_limiter.HttpMiddleware{Limiter: limiter}
+	middleware := &http_limiter.HttpMiddleware{Limiter: limiter}
 
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", middleware.Limit(handlerHome))
 
-	go internal_http_limiter.CleanupOldRequest(limiter,
+	go http_limiter.CleanupOldRequest(limiter,
 		time.Duration(cfg.Limiter.CleanupOldRequestInterval)*time.Second)
 
 	server := &http.Server{
