@@ -5,7 +5,7 @@ thing/s to improve:
 - tba
 -->
 
-an http & grpc server network request limiter in go
+a http & grpc server network request limiter in go
 
 <br>
 
