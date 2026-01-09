@@ -59,7 +59,7 @@ func (s *Server) SendLocationAndSave(ctx context.Context,
 func main() {
 	cfg, err := config.ConfigServerGrpcLoad("../../config.grpc.json")
 	if err != nil {
-		log.Fatalf("can't load config: %v\n", err)
+		log.Fatalf("can't load config: %v\nNOTE:\n- try to copy config.grpc.json.template as config.grpc.json and adjust as you need\n", err)
 		return
 	}
 
@@ -79,7 +79,7 @@ func main() {
 	reflection.Register(server)
 
 	go grpc_limiter.CleanupOldRequest(limiter, cleanupInterval)
-	
+
 	listAddr, err := net.Listen("tcp",
 		fmt.Sprintf("%s:%d", cfg.Listener.Address, cfg.Listener.Port)); if err != nil {
 			log.Fatalf("error: %v\n", err)
