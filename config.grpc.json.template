@@ -6,6 +6,6 @@
     "limiter": {
         "max_request_per_ip": 6,
         "max_request_interval": 60,
-        "cleanup_old_request_interval": 75
+        "cleanup_old_request_interval": 120
     }
 }

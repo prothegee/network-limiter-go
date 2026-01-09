@@ -105,7 +105,7 @@ func (m *HttpMiddleware) Limit(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		if !m.Limiter.CheckRequestLimit(ip) {
-			http.Error(w, "request limi exceeded", http.StatusTooManyRequests)
+			http.Error(w, "Request Limit Exceeded", http.StatusTooManyRequests)
 			return
 		}
 

@@ -68,22 +68,23 @@ func handlerHome(w http.ResponseWriter, r *http.Request) {
 func main() {
 	cfg, err := config.ConfigServerHttpLoad("../../config.http.json")
 	if err != nil {
-		log.Fatalf("can't load config: %v\n", err)
+		log.Fatalf("can't load config: %v\nNOTE:\n- try to copy config.http.json.template as config.http.json and adjust as you need\n", err)
 		return
 	}
 	listAddr := fmt.Sprintf("%s:%d", cfg.Listener.Address, cfg.Listener.Port)
 
+	maxReqInterval := time.Duration(cfg.Limiter.MaxRequestInterval) * time.Second
+	cleanupInterval := time.Duration(cfg.Limiter.CleanupOldRequestInterval) * time.Second
+
 	limiter := http_limiter.NewHttpRateLimiter(
-		uint(cfg.Limiter.MaxRequestPerIp),
-		time.Duration(cfg.Limiter.MaxRequestInterval)*time.Second)
+		uint(cfg.Limiter.MaxRequestPerIp), maxReqInterval)
 	middleware := &http_limiter.HttpMiddleware{Limiter: limiter}
 
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", middleware.Limit(handlerHome))
 
-	go http_limiter.CleanupOldRequest(limiter,
-		time.Duration(cfg.Limiter.CleanupOldRequestInterval)*time.Second)
+	go http_limiter.CleanupOldRequest(limiter, cleanupInterval)
 
 	server := &http.Server{
 		Addr: listAddr,
@@ -93,6 +94,6 @@ func main() {
 		WriteTimeout: time.Duration(cfg.Server.WriteTimeout) * time.Second,
 	}
 
-	log.Printf("INFO: run httpserver on %s\n", listAddr)
+	log.Printf("INFO: run http server on %s\n", listAddr)
 	log.Fatal(server.ListenAndServe())
 }
