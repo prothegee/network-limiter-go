@@ -1,4 +1,4 @@
-package integration_test
+package unit_test
 
 import (
 	"net/http"
@@ -6,14 +6,12 @@ import (
 	"testing"
 	"time"
 
-	internal_http_limiter "github.com/network-limiter-go/internal/http"
+	http_limiter "github.com/network-limiter-go/pkg/http"
 )
 
-
-
-func TestIntegration_rateLimit(t *testing.T) {
-	rateLimiter := internal_http_limiter.NewHttpRateLimiter(3, 30*time.Second)
-	middleware := &internal_http_limiter.HttpMiddleware{Limiter: rateLimiter}
+func TestIntegration_HttpRateLimit(t *testing.T) {
+	rateLimiter := http_limiter.NewHttpRateLimiter(3, 30*time.Second)
+	middleware := &http_limiter.HttpMiddleware{Limiter: rateLimiter}
 
 	handler := middleware.Limit(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
@@ -88,7 +86,7 @@ func TestIntegration_rateLimit(t *testing.T) {
 	t.Run("TEST: with X-Forwarded-For", func(t *testing.T) {
 		for i := 1; i <= 10; i++ {
 			req, _ := http.NewRequest("GET", ts.URL, nil)
-			req.Header.Set("X-Forwarded-For", "192.168.200.200")
+			req.Header.Set("X-Forwarded-For", "192.168.2.200")
 
 			resp, err := client.Do(req); if err != nil {
 				t.Fatalf("request #%d failed: %v\n", i, err)

@@ -1,4 +1,4 @@
-package internal_http_limiter
+package pkg_http_limiter
 
 import (
 	"net/http"
@@ -85,6 +85,13 @@ func CleanupOldRequest(lmtr *HttpRateLimiter, d time.Duration) {
 
 type HttpMiddleware struct {
 	Limiter *HttpRateLimiter
+}
+
+// @brief in-case of fire, helper for reset ip param
+func (lmtr *HttpRateLimiter) ResetIP(ip string) {
+	lmtr.Mtx.Lock()
+	defer lmtr.Mtx.Unlock()
+	delete(lmtr.Requests, ip)
 }
 
 func (m *HttpMiddleware) Limit(next http.HandlerFunc) http.HandlerFunc {

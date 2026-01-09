@@ -1,4 +1,4 @@
-package internal_gen
+package pkg
 
 import (
 	"log"
