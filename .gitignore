@@ -61,4 +61,6 @@ export*.hpp
 !.vscode/*.json.tempalte
 !.zed/*.json.template
 
+!pkg/config
+
 config/config.*.json.template
