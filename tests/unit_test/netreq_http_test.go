@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	http_limiter "github.com/network-limiter-go/pkg/http"
+	http_limiter "network-limiter-go/pkg/http"
 )
 
 func TestIntegration_HttpRateLimit(t *testing.T) {

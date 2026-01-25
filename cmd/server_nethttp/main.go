@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"time"
 
-	gen "github.com/prothegee/network-limiter-go/pkg"
-	config "github.com/prothegee/network-limiter-go/pkg/config"
-	http_limiter "github.com/prothegee/network-limiter-go/pkg/http"
+	gen "network-limiter-go/pkg"
+	config "network-limiter-go/pkg/config"
+	http_limiter "network-limiter-go/pkg/http"
 )
 
 // --------------------------------------------------------- //

@@ -9,10 +9,10 @@ import (
 	"strings"
 	"time"
 
-	gen "github.com/prothegee/network-limiter-go/pkg"
-	config "github.com/prothegee/network-limiter-go/pkg/config"
-	grpc_limiter "github.com/prothegee/network-limiter-go/pkg/grpc"
-	pb "github.com/prothegee/network-limiter-go/protobuf"
+	gen "network-limiter-go/pkg"
+	config "network-limiter-go/pkg/config"
+	grpc_limiter "network-limiter-go/pkg/grpc"
+	pb "network-limiter-go/protobuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )

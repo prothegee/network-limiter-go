@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	grpc_limiter "github.com/network-limiter-go/pkg/grpc"
-	pb "github.com/network-limiter-go/protobuf"
+	grpc_limiter "network-limiter-go/pkg/grpc"
+	pb "network-limiter-go/protobuf"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
